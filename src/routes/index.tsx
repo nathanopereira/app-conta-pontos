@@ -2,7 +2,6 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import CreateGame from '../pages/CreateGame';
 import Gameplay from '../pages/Gameplay';
 import GameList from '../pages/GameList';
 
@@ -17,7 +16,6 @@ const Routes: React.FC = () => {
       }}
       initialRouteName="GameList"
     >
-      <App.Screen name="CreateGame" component={CreateGame} />
       <App.Screen name="Gameplay" component={Gameplay} />
       <App.Screen name="GameList" component={GameList} />
     </App.Navigator>
