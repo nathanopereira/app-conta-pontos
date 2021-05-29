@@ -17,6 +17,7 @@
     "@types/uuid": "^8.3.0",
     "react": "16.13.1",
     "react-native": "0.63.4",
+    "styled-components": "^5.2.3",
     "uuid": "^8.3.2"
   },
   "devDependencies": {
@@ -27,8 +28,8 @@
     "@types/react-native": "^0.63.2",
     "@types/react-native-vector-icons": "^6.4.6",
     "@types/react-test-renderer": "^16.9.2",
-    "@types/styled-components": "^5.1.7",
-    "@types/styled-components-react-native": "^5.1.0",
+    "@types/styled-components": "^5.1.9",
+    "@types/styled-components-react-native": "^5.1.1",
     "@types/yup": "^0.29.11",
     "@typescript-eslint/eslint-plugin": "^4.14.0",
     "babel-jest": "^25.1.0",
