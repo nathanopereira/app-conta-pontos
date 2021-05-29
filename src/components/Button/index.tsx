@@ -1,9 +1,9 @@
 import React from 'react';
-import { RectButtonProperties } from 'react-native-gesture-handler';
+import { PressableProps } from 'react-native';
 
 import { Container, ButtonText } from './styles';
 
-interface ButtoProps extends RectButtonProperties {
+interface ButtoProps extends PressableProps {
   children: string | Element;
   fontSize?: number;
   textColor?: string;
