@@ -1,4 +1,5 @@
 import AsyncStorage from '@react-native-community/async-storage';
+import { StackScreenProps } from '@react-navigation/stack';
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
@@ -27,7 +28,7 @@ interface IGame {
 }
 
 
-const Gameplay: React.FC = ({ route }) => {
+const Gameplay: React.FC<StackScreenProps<{Gameplay: {id: string}}, 'Gameplay'>> = ({ route }) => {
 
   const [game, setGame] = useState({} as IGame)
 
