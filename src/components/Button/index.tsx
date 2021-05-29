@@ -4,7 +4,7 @@ import { RectButtonProperties } from 'react-native-gesture-handler';
 import { Container, ButtonText } from './styles';
 
 interface ButtoProps extends RectButtonProperties {
-  children: string;
+  children: string | Element;
   fontSize?: number;
   textColor?: string;
 }
