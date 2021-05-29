@@ -34,3 +34,24 @@ export const Player = styled.Text`
   font-size: 18px;
   line-height: 18px;
 `
+
+export const ButtonRemoveScore = styled(RectButton)`
+  width: 50px;
+  height: 50px;
+
+  right: 0;
+  bottom: 0;
+
+  position: absolute;
+
+  justify-content: center;
+  align-items: center;
+
+  background: rgba(0,0,0,.3);
+`
+
+export const ButtonRemoveScoreText = styled.Text`
+  font-family: 'Inter-Regular';
+  color: #fff;
+  font-size: 20px;
+`

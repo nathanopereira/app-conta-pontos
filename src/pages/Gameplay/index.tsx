@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, { useCallback, useEffect, useState } from 'react';
 import { View, Text } from 'react-native';
 
-import { Container, ScoreGrid, ScoreItem, Score, Player } from './styles';
+import { Container, ScoreGrid, ScoreItem, Score, Player, ButtonRemoveScore, ButtonRemoveScoreText } from './styles';
 
 interface IPlayer {
   name?: string;
@@ -51,7 +51,7 @@ const Gameplay: React.FC = ({ route }) => {
   const incrementScore = useCallback(
     async (playerId: string) => {
       const player = game.players.find(player => player.id === playerId)
-      console.log(player)
+
       if (player) {
         const oldScore = player.score
         const event = { type: 'increment-score', player: playerId, old_score: oldScore, score: player.score, created_at: new Date() };
@@ -66,7 +66,31 @@ const Gameplay: React.FC = ({ route }) => {
           return player
         })
 
-        console.log(players)
+        setGame(game => ({ ...game, events: game.events ? [...game.events, event] : [event], players }))
+      }
+    },
+    [game],
+  )
+
+  const decrementScore = useCallback(
+    async (playerId: string) => {
+      const player = game.players.find(player => player.id === playerId)
+
+      if (player) {
+        if(player.score === 0) return
+
+        const oldScore = player.score
+        const event = { type: 'decrement-score', player: playerId, old_score: oldScore, score: player.score, created_at: new Date() };
+        const players = game.players.map(player => {
+          if (player.id === playerId) {
+            return {
+              ...player,
+              score: player.score - 1,
+            }
+          }
+
+          return player
+        })
 
         setGame(game => ({ ...game, events: game.events ? [...game.events, event] : [event], players }))
       }
@@ -117,6 +141,9 @@ const Gameplay: React.FC = ({ route }) => {
           <ScoreItem key={player.id} color={player.color} onPress={() => incrementScore(player.id)}>
             <Score>{player.score}</Score>
             <Player>{player.name}</Player>
+            <ButtonRemoveScore onPress={() => decrementScore(player.id)}>
+              <ButtonRemoveScoreText>-1</ButtonRemoveScoreText>
+            </ButtonRemoveScore>
           </ScoreItem>
         ))}
       </ScoreGrid>
