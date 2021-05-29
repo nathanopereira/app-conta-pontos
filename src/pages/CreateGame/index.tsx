@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import React, { useCallback, useEffect, useState } from 'react';
-import { View } from 'react-native';
+import { Modal, View } from 'react-native';
 import { v4 as uuid } from 'uuid';
 import Button from '../../components/Button';
 import { ButtonAddPlayer, ColorItem, ColorSelector, Container, Label, Player, PlayerColor, PlayerList, PlayerName, TextButtonAddPlayer, TextInput, Title } from './styles';
@@ -21,11 +21,19 @@ interface IGame {
   players: IPlayer[];
 }
 
-const CreateGame: React.FC = () => {
+interface CreateGameProps {
+  visible?: boolean;
+  onClose: () => void;
+}
+
+const CreateGame: React.FC<CreateGameProps> = ({ visible, onClose }) => {
   const [isAddingPlayer, setIsAddingPlayer] = useState<boolean>(false)
 
-  const [game, setGame] = useState<IGame>({ id: uuid(), players: [] as IPlayer[] } as IGame);
-  const [newPlayer, setNewPlayer] = useState<IPlayer>({ score: 0, id: uuid() } as IPlayer);
+  const initialGame = { id: uuid(), players: [] as IPlayer[] } as IGame
+  const intialPlayer = { score: 0, id: uuid() } as IPlayer
+
+  const [game, setGame] = useState<IGame>(initialGame);
+  const [newPlayer, setNewPlayer] = useState<IPlayer>(intialPlayer);
 
   const navigation = useNavigation()
 
@@ -58,16 +66,32 @@ const CreateGame: React.FC = () => {
     parsedStorage.push(game)
     await AsyncStorage.setItem('@contapontos', JSON.stringify(parsedStorage))
 
+    onClose()
     navigation.navigate('Gameplay', { id: game.id })
   }, [game])
 
+  const handleCancel = useCallback(
+    () => {
+      setGame(initialGame)
+      setNewPlayer(intialPlayer)
+      setIsAddingPlayer(false)
+      onClose()
+    },
+    [],
+  )
+
   useEffect(() => {
     if (!isAddingPlayer)
-      setNewPlayer({ score: 0, id: uuid() } as IPlayer)
+      setNewPlayer(intialPlayer)
   }, [isAddingPlayer])
 
   return (
-    <Container>
+    <Modal
+      visible={visible}
+      onRequestClose={handleCancel}
+      animationType="slide"
+    >
+      <Container>
       <Title>Criando jogo</Title>
 
       <Label>Nome do jogo</Label>
@@ -129,10 +153,11 @@ const CreateGame: React.FC = () => {
       {!isAddingPlayer && (
         <View style={{ marginTop: 30 }}>
           <Button textColor="#fff" onPress={() => createGame()}>Criar Jogo</Button>
-          <Button style={{ backgroundColor: '#d0d1ff' }} textColor="#000" onPress={() => navigation.goBack()}>Cancelar</Button>
+          <Button style={{ backgroundColor: '#d0d1ff' }} textColor="#000" onPress={handleCancel}>Cancelar</Button>
         </View>
       )}
     </Container>
+    </Modal>
   );
 }
 

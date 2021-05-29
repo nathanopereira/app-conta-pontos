@@ -38,7 +38,7 @@ export const TextInput = styled.TextInput`
   font-size: 16px;
 `;
 
-export const ButtonAddPlayer = styled(RectButton)`
+export const ButtonAddPlayer = styled.Pressable`
   width: 100%;
   background: #06f;
   border-radius: 10px;
