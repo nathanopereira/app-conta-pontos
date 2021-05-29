@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, ScrollView } from 'react-native';
+import { View, ScrollView, Alert, ToastAndroid } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -12,7 +12,9 @@ import {
   Title,
   Header,
   ButtonCreateGame,
+  ButtonRemoveGame,
   GameCard,
+  GameCardContainer,
   GameTitle,
   GamePlayers,
 } from './styles'
@@ -44,9 +46,45 @@ const GameList: React.FC = () => {
     [],
   )
 
+  const handleRemoveGame = useCallback(
+    async (id: string) => {
+      setGames(prevState => prevState.filter(game => game.id !== id))
+
+      ToastAndroid.show("Jogo removido com sucesso", ToastAndroid.SHORT);
+    },
+    [games],
+  )
+
+  const handleConfirmRemove = useCallback(
+    (game: IGame) => {
+      Alert.alert(
+        `Removendo jogo ${game.title}`,
+        `Tem certeza que deseja remover o jogo? ${game.players.map((player, index) => {
+          return index === 0 ? `${player.name} (${player.score})` : `${player.name} (${player.score})`
+        })}`,
+        [
+          {
+            text: "Cancel",
+            style: "cancel"
+          },
+          { text: "OK", onPress: () => handleRemoveGame(game.id) }
+        ]
+      );
+    },
+    [],
+  )
+
   useEffect(() => {
     loadGames()
   }, [])
+
+  useEffect(() => {
+    async function updateStorage(gamesToStorage: IGame[]){
+      await AsyncStorage.setItem('@contapontos', JSON.stringify(gamesToStorage))
+    }
+
+    updateStorage(games)
+  },[games])
 
   return (
     <ScrollView>
@@ -58,7 +96,7 @@ const GameList: React.FC = () => {
               <Author>por @nathanopereira</Author>
             </View>
             <View>
-              <ButtonCreateGame onPress={() => navigation.navigate('CreateGame')} style={{ backgroundColor: '#06f' }}>
+              <ButtonCreateGame onPress={() => navigation.navigate('CreateGame')} >
                 <Icon name="plus" color="#fff" size={15} />
               </ButtonCreateGame>
             </View>
@@ -67,13 +105,16 @@ const GameList: React.FC = () => {
 
         {games.map(game => (
           <GameCard onPress={() => navigation.navigate('Gameplay', { id: game.id })} key={game.id}>
-            <View>
+            <GameCardContainer>
               <GameTitle>{game.title}</GameTitle>
               <GamePlayers>{game.players.map((player, index) => {
                 return index === 0 ? `${player.name} (${player.score})` : ` • ${player.name} (${player.score})`
               })}
               </GamePlayers>
-            </View>
+            </GameCardContainer>
+            <ButtonRemoveGame onPress={() => handleConfirmRemove(game)}>
+              <Icon name="trash" color="#aaa" size={20} />
+            </ButtonRemoveGame>
           </GameCard>
         ))}
 
