@@ -129,7 +129,7 @@ const CreateGame: React.FC = () => {
       {!isAddingPlayer && (
         <View style={{ marginTop: 30 }}>
           <Button textColor="#fff" onPress={() => createGame()}>Criar Jogo</Button>
-          <Button style={{ backgroundColor: '#d0d1ff' }} textColor="#000" onPress={() => navigation.navigate('Home')}>Cancelar</Button>
+          <Button style={{ backgroundColor: '#d0d1ff' }} textColor="#000" onPress={() => navigation.goBack()}>Cancelar</Button>
         </View>
       )}
     </Container>
