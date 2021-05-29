@@ -2,7 +2,10 @@ import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
 
-import Dashboard from '../pages/Dashboard';
+import Home from '../pages/Home';
+import CreateGame from '../pages/CreateGame';
+import Gameplay from '../pages/Gameplay';
+import GameList from '../pages/GameList';
 
 const App = createStackNavigator();
 
@@ -11,14 +14,14 @@ const Routes: React.FC = () => {
     <App.Navigator
       screenOptions={{
         headerShown: false,
-         // headerTintColor: '#fff',
-        // headerStyle: {
-        //   backgroundColor: '#7159c1',
-        // },
-        cardStyle: { backgroundColor: '#312e38' },
+        cardStyle: { backgroundColor: '#fff' },
       }}
+      initialRouteName="Home"
     >
-      <App.Screen name="Dashboard" component={Dashboard} />
+      <App.Screen name="Home" component={Home} />
+      <App.Screen name="CreateGame" component={CreateGame} />
+      <App.Screen name="Gameplay" component={Gameplay} />
+      <App.Screen name="GameList" component={GameList} />
     </App.Navigator>
   );
 };
