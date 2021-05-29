@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from 'react';
-import { View, ScrollView, Alert, ToastAndroid } from 'react-native';
+import { View, ScrollView, Alert, ToastAndroid, Modal, Text, Pressable } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import { useNavigation } from '@react-navigation/core';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -19,6 +19,8 @@ import {
   GamePlayers,
 } from './styles'
 
+import CreateGame from '../CreateGame';
+
 interface IPlayer {
   name?: string;
   color: string;
@@ -34,6 +36,7 @@ interface IGame {
 const GameList: React.FC = () => {
 
   const [games, setGames] = useState([] as IGame[])
+  const [showModalCreateGame, setShowModalCreateGame] = useState(false)
 
   const navigation = useNavigation()
 
@@ -96,7 +99,7 @@ const GameList: React.FC = () => {
               <Author>por @nathanopereira</Author>
             </View>
             <View>
-              <ButtonCreateGame onPress={() => navigation.navigate('CreateGame')} >
+              <ButtonCreateGame onPress={() => setShowModalCreateGame(true)} >
                 <Icon name="plus" color="#fff" size={15} />
               </ButtonCreateGame>
             </View>
@@ -122,9 +125,11 @@ const GameList: React.FC = () => {
           <View>
             <Title isBig>Conta Pontos</Title>
             <Author isBig>por @nathanopereira</Author>
-            <Button onPress={() => navigation.navigate('CreateGame')} style={{ backgroundColor: '#06f' }}>Criar Jogo</Button>
+            <Button onPress={() => setShowModalCreateGame(true)} style={{ backgroundColor: '#06f' }}>Criar Jogo</Button>
           </View>
         )}
+
+        <CreateGame visible={showModalCreateGame} onClose={() => setShowModalCreateGame(false)} />
       </Container>
     </ScrollView>
   );
