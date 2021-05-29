@@ -1,3 +1,4 @@
+import { RectButton } from 'react-native-gesture-handler';
 import styled, { css } from 'styled-components/native';
 import Button from '../../components/Button';
 
@@ -13,8 +14,9 @@ export const TextInterBold = styled.Text`
   font-family: 'Inter-Bold';
 `
 
-export const Container = styled.ScrollView`
+export const Container = styled.View`
   flex: 1;
+  justify-content: center;
   padding: 20px 15px 20px;
 `;
 
@@ -42,6 +44,8 @@ export const Header = styled.View`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
+
+  margin-bottom: 15px;
 `
 
 export const ButtonCreateGame = styled(Button)`
@@ -51,8 +55,10 @@ export const ButtonCreateGame = styled(Button)`
   height: 50px;
   margin: 0;
 `
-export const GameCard = styled(Button)`
+export const GameCard = styled(RectButton)`
   background-color: #ebebeb;
+  margin-bottom: 10px;
+  border-radius: 4px;
   align-items: flex-start;
   padding: 10px;
 `
