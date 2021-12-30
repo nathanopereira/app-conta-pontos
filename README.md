@@ -18,3 +18,8 @@
 # Regras de negócio
 
 storage = @contapontos = [game1, game2]
+
+# Evoluções
+- [ ] Utilizar a mesma cor para todos jogadores, conforme jogador faz mais pontos
+"aumenta" a cor. Exemplo: todos começam com pontos pretos e fundo branco, assim que um
+jogador pontuar, seus pontos recebe uma cor com fundo bem "forte"
